@@ -1,9 +1,6 @@
 [submodule "UMDGeneral"]
 	path = UMDGeneral
 	url = https://github.com/vergaraunited/UMDGeneral.git
-[submodule "MobileDeliverySettings"]
-	path = MobileDeliverySettings
-	url = https://github.com/vergaraunited/MobileDeliverySettings.git
 [submodule "MobileDeliveryClient"]
 	path = MobileDeliveryClient
 	url = https://github.com/vergaraunited/MobileDeliveryClient.git
@@ -13,3 +10,6 @@
 [submodule "MobileDeliveryLogger"]
 	path = MobileDeliveryLogger
 	url = https://github.com/vergaraunited/MobileDeliveryLogger.git
+[submodule "MobileDeliverySettings"]
+	path = MobileDeliverySettings
+	url = https://github.com/vergaraunited/MobileDeliverySettings.git
