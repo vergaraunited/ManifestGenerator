@@ -101,5 +101,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MobileDeliveryLogger\MobileDeliveryLogger.csproj">
+      <Project>{4EB239B5-E5EE-4936-8996-1B2FDB99076C}</Project>
+      <Name>MobileDeliveryLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="MobileDeliveryMVVM\MobileDeliveryMVVM.csproj">
+      <Project>{1ADB235F-C2F6-4C7B-92D8-56C6884AC1FE}</Project>
+      <Name>MobileDeliveryMVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMDGeneral\UMDGeneral.csproj">
+      <Project>{D637DE93-5B09-4EA3-9986-B98C5CD663BF}</Project>
+      <Name>UMDGeneral</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
