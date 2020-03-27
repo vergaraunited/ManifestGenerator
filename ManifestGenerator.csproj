@@ -32,6 +32,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Dev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.0\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
@@ -68,12 +78,6 @@
     </Compile>
     <Compile Include="ManifestGeneratorStartup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="uctlManifest.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="uctlManifest.Designer.cs">
-      <DependentUpon>uctlManifest.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="frmManifestGenerator.resx">
       <DependentUpon>frmManifestGenerator.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,7 +90,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="MobileDeliveryMVVM.ViewModel.ManifestVM.datasource" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -102,16 +105,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MobileDeliveryLogger\MobileDeliveryLogger.csproj">
-      <Project>{4EB239B5-E5EE-4936-8996-1B2FDB99076C}</Project>
+    <ProjectReference Include="..\MobileDeliveryLogger\MobileDeliveryLogger.csproj">
+      <Project>{1ebc927f-ab3e-423d-9752-8c24e57f0aa9}</Project>
       <Name>MobileDeliveryLogger</Name>
     </ProjectReference>
-    <ProjectReference Include="MobileDeliveryMVVM\MobileDeliveryMVVM.csproj">
-      <Project>{1ADB235F-C2F6-4C7B-92D8-56C6884AC1FE}</Project>
-      <Name>MobileDeliveryMVVM</Name>
+    <ProjectReference Include="..\MobileDeliveryServer\MobileDeliveryServer.csproj">
+      <Project>{e2bc4c88-465d-4486-8214-0d93322a4284}</Project>
+      <Name>MobileDeliveryServer</Name>
     </ProjectReference>
-    <ProjectReference Include="UMDGeneral\UMDGeneral.csproj">
-      <Project>{D637DE93-5B09-4EA3-9986-B98C5CD663BF}</Project>
+    <ProjectReference Include="..\MobileDeliverySettings\MobileDeliverySettings.csproj">
+      <Project>{895ad27a-5098-4e36-9075-d1917d60f273}</Project>
+      <Name>MobileDeliverySettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UMDGeneral\UMDGeneral.csproj">
+      <Project>{acf15679-d989-49ef-ad80-ac5d07f64301}</Project>
       <Name>UMDGeneral</Name>
     </ProjectReference>
   </ItemGroup>
