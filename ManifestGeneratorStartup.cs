@@ -2,7 +2,7 @@
 using System;
 using System.Configuration;
 using System.Windows.Forms;
-using UMDGeneral.Settings;
+using MobileDeliveryGeneral.Settings;
 
 namespace ManifestGenerator
 {

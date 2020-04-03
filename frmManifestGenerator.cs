@@ -8,12 +8,12 @@ using System.Linq;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UMDGeneral.Data;
-using static UMDGeneral.Definitions.MsgTypes;
+using MobileDeliveryGeneral.Data;
+using static MobileDeliveryGeneral.Definitions.MsgTypes;
 using System.Collections.Generic;
 using MobileDeliveryLogger;
-using UMDGeneral.BaseClasses;
-using UMDGeneral.Settings;
+using MobileDeliveryGeneral.BaseClasses;
+using MobileDeliveryGeneral.Settings;
 
 namespace ManifestGenerator
 {
