@@ -20,7 +20,7 @@ namespace ManifestGenerator
             var config = WinformReadSettings.GetSettings(typeof(ManifestGenerator));
 
             Logger logger = new Logger(config.AppName, config.LogPath, config.LogLevel);
-            Logger.Level = LogLevel.Info;
+            Logger.Level = config.LogLevel;
 
             Logger.Info($"Starting {config.AppName} {config.Version} {DateTime.Now}");
             Logger.Info($"Logfile path: {config.LogPath} ");
