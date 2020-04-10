@@ -374,7 +374,7 @@ namespace ManifestGenerator
                 mvm.InitConnections(txtURL.Text, 81, txtURL.Text, 8181);
             else
                 mvm.InitConnections(config.srvSet.url, config.srvSet.port,
-                    config.srvSet.WinSysUrl, config.srvSet.WinSysPort);
+                    config.srvSet.clienturl, config.srvSet.clientport);
             //dvm.InitConnections(txtURL.Text, "81", txtURL.Text, "8181");
             //dvm.LoadDriversCommand.Execute(dateTimePicker1.Value);
 
