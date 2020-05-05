@@ -119,11 +119,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MobileDeliveryMVVM">
-      <Version>1.5.4</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -134,6 +129,20 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MobileDeliveryGeneral\MobileDeliveryGeneral.csproj">
+      <Project>{4024f064-f52f-419e-a6c1-3b487a2c3686}</Project>
+      <Name>MobileDeliveryGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MobileDeliveryLogger\MobileDeliveryLogger.csproj">
+      <Project>{1ebc927f-ab3e-423d-9752-8c24e57f0aa9}</Project>
+      <Name>MobileDeliveryLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MobileDeliveryMVVM\MobileDeliveryMVVM.csproj">
+      <Project>{a7c93d87-5c22-4d14-9d00-712c2fe251e4}</Project>
+      <Name>MobileDeliveryMVVM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

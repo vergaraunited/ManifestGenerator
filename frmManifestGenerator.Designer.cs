@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ManifestIds = new System.Windows.Forms.DataGridView();
             this.txtManifestId = new System.Windows.Forms.TextBox();
             this.cmbURL = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -39,13 +40,13 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.ManifestIds = new System.Windows.Forms.DataGridView();
+            this.btnLoadFiles = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ManifestIds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -57,6 +58,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnLoadFiles);
             this.splitContainer1.Panel1.Controls.Add(this.ManifestIds);
             this.splitContainer1.Panel1.Controls.Add(this.txtManifestId);
             this.splitContainer1.Panel1.Controls.Add(this.cmbURL);
@@ -75,12 +77,23 @@
             this.splitContainer1.SplitterDistance = 129;
             this.splitContainer1.TabIndex = 9;
             // 
+            // ManifestIds
+            // 
+            this.ManifestIds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ManifestIds.Location = new System.Drawing.Point(595, 106);
+            this.ManifestIds.Name = "ManifestIds";
+            this.ManifestIds.Size = new System.Drawing.Size(22, 20);
+            this.ManifestIds.TabIndex = 26;
+            this.ManifestIds.Visible = false;
+            this.ManifestIds.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.ManifestIds_CellValueNeeded);
+            this.ManifestIds.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.ManifestIds_RowsAdded);
+            // 
             // txtManifestId
             // 
-            this.txtManifestId.Location = new System.Drawing.Point(503, 12);
+            this.txtManifestId.Location = new System.Drawing.Point(275, 96);
             this.txtManifestId.Multiline = true;
             this.txtManifestId.Name = "txtManifestId";
-            this.txtManifestId.Size = new System.Drawing.Size(114, 21);
+            this.txtManifestId.Size = new System.Drawing.Size(225, 21);
             this.txtManifestId.TabIndex = 25;
             this.txtManifestId.TextChanged += new System.EventHandler(this.txtManifestId_TextChanged);
             // 
@@ -90,7 +103,7 @@
             this.cmbURL.Items.AddRange(new object[] {
             "localhost",
             "74.105.79.86"});
-            this.cmbURL.Location = new System.Drawing.Point(74, 22);
+            this.cmbURL.Location = new System.Drawing.Point(31, 22);
             this.cmbURL.Name = "cmbURL";
             this.cmbURL.Size = new System.Drawing.Size(121, 21);
             this.cmbURL.TabIndex = 24;
@@ -98,7 +111,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(208, 20);
+            this.button2.Location = new System.Drawing.Point(176, 19);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 23;
@@ -108,7 +121,7 @@
             // 
             // txtURL
             // 
-            this.txtURL.Location = new System.Drawing.Point(95, 83);
+            this.txtURL.Location = new System.Drawing.Point(31, 96);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(100, 20);
             this.txtURL.TabIndex = 22;
@@ -122,22 +135,20 @@
             this.driverButton.TabIndex = 21;
             this.driverButton.Text = "Drivers";
             this.driverButton.UseVisualStyleBackColor = true;
-            this.driverButton.VisibleChanged += new System.EventHandler(this.driverButton_VisibleChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(653, 57);
+            this.button1.Location = new System.Drawing.Point(662, 54);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 20;
             this.button1.Text = "Persist";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.VisibleChanged += new System.EventHandler(this.button1_VisibleChanged);
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(80, 57);
+            this.textBox1.Location = new System.Drawing.Point(31, 57);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 18;
@@ -149,6 +160,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(225, 20);
             this.dateTimePicker1.TabIndex = 15;
+            this.dateTimePicker1.EnabledChanged += new System.EventHandler(this.dateTimePicker1_EnabledChanged);
             // 
             // label1
             // 
@@ -159,6 +171,7 @@
             this.label1.Size = new System.Drawing.Size(85, 26);
             this.label1.TabIndex = 14;
             this.label1.Text = "Loader";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // dataGridView2
@@ -176,23 +189,23 @@
             this.dataGridView2.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView2_CellFormatting);
             this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
             // 
-            // ManifestIds
+            // btnLoadFiles
             // 
-            this.ManifestIds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ManifestIds.Location = new System.Drawing.Point(503, 45);
-            this.ManifestIds.Name = "ManifestIds";
-            this.ManifestIds.Size = new System.Drawing.Size(114, 81);
-            this.ManifestIds.TabIndex = 26;
-            this.ManifestIds.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.ManifestIds_CellValueNeeded);
-            this.ManifestIds.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.ManifestIds_RowsAdded);
+            this.btnLoadFiles.Location = new System.Drawing.Point(177, 93);
+            this.btnLoadFiles.Name = "btnLoadFiles";
+            this.btnLoadFiles.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadFiles.TabIndex = 27;
+            this.btnLoadFiles.Text = "Load Files";
+            this.btnLoadFiles.UseVisualStyleBackColor = true;
+            this.btnLoadFiles.Click += new System.EventHandler(this.btnLoadFiles_Click);
             // 
-            // Form1
+            // frmManifestGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "Form1";
+            this.Name = "frmManifestGenerator";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -200,8 +213,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ManifestIds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -219,6 +232,7 @@
         private System.Windows.Forms.ComboBox cmbURL;
         private System.Windows.Forms.TextBox txtManifestId;
         private System.Windows.Forms.DataGridView ManifestIds;
+        private System.Windows.Forms.Button btnLoadFiles;
     }
 }
 

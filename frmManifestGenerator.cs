@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using MobileDeliveryLogger;
 using MobileDeliveryGeneral.BaseClasses;
 using MobileDeliveryGeneral.Settings;
+using MobileDeliveryGeneral.Definitions;
 
 namespace ManifestGenerator
 {
@@ -31,9 +32,6 @@ namespace ManifestGenerator
             InitializeComponent();
             // ViewModel Instance
             mvm = new ManifestVM(config);
-            
-            //dvm = new DriverVM();
-            //this.dataGridView2.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dataGridView2_DataBindingComplete);
         }
 
         public void Init(UMDAppConfig config)
@@ -42,20 +40,9 @@ namespace ManifestGenerator
         }
         void InitDGView()
         {
-            //dvm.OnDriversLoad(dte);
-           // Monitor.Enter(waitForLoad);
             dataGridView2.AutoGenerateColumns = false;
 
-            
             DataGridViewComboBoxColumn cmbcolName = new DataGridViewComboBoxColumn();
-            //cmbcolName.DataPropertyName = "Userid";
-            //cmbcolName.HeaderText = "Driver";
-            //cmbcolName.Name = cmbcolName.HeaderText;
-            ////var DriverVM = dvm;
-            ////cmbcolName.DataSource = GetDrivers();
-            //cmbcolName.Visible = true;
-            //dataGridView2.Columns.Add(cmbcolName);
-
             DataGridViewTextBoxColumn colName = new DataGridViewTextBoxColumn();
             colName.DataPropertyName = "TRK_CDE";
             colName.HeaderText = "Truck Code";
@@ -139,19 +126,16 @@ namespace ManifestGenerator
 
             dataGridView2.Columns.Add(chcolName);
         }
-        void LoadManifest() {
+        void LoadManifest()
+        {
             Logger.Info($"Load Manifest - Manifest Generator");
-            mvm.LoadData(
-                new manifestRequest()
-                {
-                    command = eCommand.GenerateManifest,
-                    date = dateTimePicker1.Value.ToString("yyyy-MM-dd")
-                });
+            //this.UseWaitCursor = true;
+            //dateTimePicker1.Enabled = false;
+            mvm.LoadManifestCommand.Execute(dateTimePicker1.Value);
         }
         Task GetManifest()
         {
             LoadManifest();
-
             return Task.CompletedTask;
         }
 
@@ -185,7 +169,6 @@ namespace ManifestGenerator
             catch (Exception ex) { }
         }
 
-
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -218,17 +201,6 @@ namespace ManifestGenerator
             dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit); 
         }
 
-        private void dataGridView2_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            //if (e.Row.DataBoundItem != null)
-            //{
-            //    e.Row.Cells["Command"].Value = (eCommand)((int)e.Row.Cells["Command"].Value);
-            //}
-        }
-
-        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-        }
         void bindToMVVMObservable() { }
         void observableToBindingList(ObservableCollection<ManifestMasterData> mmd) { }
 
@@ -241,7 +213,6 @@ namespace ManifestGenerator
                 if (ManifestIds != null && ManifestIds.DataSource != null)
                 {
                     BindingList<String> lstmmid = new BindingList<String>();
-                   // lstmmid.Add(new Binding("DataSource", mvm, "ManifestMaster"));
                     
                     var mmid = ManifestIds.DataSource as ObservableCollection<String>;
                     if (mmid != null)
@@ -257,7 +228,7 @@ namespace ManifestGenerator
                 List<ManifestMasterData> lstMmd;
 
                 if (val.Length > 0)
-                    lstMmd = mmc.Where(s => val.CompareTo(s.LINK.ToString()) == 0 || val.CompareTo(s.ManifestId.ToString()) == 0).ToList();
+                    lstMmd = mmc.Where(s => val.CompareTo(s.LINK.ToString()) == 0 && val.CompareTo(s.ManifestId.ToString()) == 0).ToList();
                 else
                     lstMmd = mmc.Select(x => x).ToList();
 
@@ -267,126 +238,62 @@ namespace ManifestGenerator
                 BindingList<ManifestMasterData> lstmm = new BindingList<ManifestMasterData>();
                 foreach (var it in mmc)
                 {
-                    if (it.LINK == lstMmd[0].LINK)
+                    if (it.LINK == lstMmd[0].LINK && it.ManifestId == lstMmd[0].ManifestId)
                         lstmm.Add(lstMmd[0]);
                     else
                         lstmm.Add(new ManifestMasterData(it));
                 }
-                //if (lstmm != null && lstmm.Count>0)
-                //{
+
                 dataGridView2.DataSource = lstmm;
                 return lstmm.Count;
-                //}
-                //else
-                //    return mmc.Count;
-                //return 0;
             }
             catch (Exception ex)
             { }
             return 0;
         }
         void ClearGrid() {
-            //dataGridView2.Rows.Clear();  
             dataGridView2.Refresh();
-        }
-        //BindingList<String> GetDrivers()
-        //{
-        //    //BindingList<String> Drivers = new BindingList<string>();
+        }        
 
-        //    //foreach (var it in dvm.DriverData)
-        //    //    Drivers.Add(it.LastName + ", " + it.FirstName);
-        //    //return Drivers;
-
-        //}
-        
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-        }
         private void LoadForm()
-        {
-            
+        {            
             // Generic MVVM Bindings
             InitDGView();
-
+            
             // ObservableCollection <ManifestMastyerData> Bindings
             var bs = new Binding("DataSource", mvm, "ManifestMaster");
             bs.DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
             dataGridView2.DataBindings.Add(bs);
 
-            // iCommand Bindings
-            //BindingList bl = 
             textBox1.DataBindings.Add(new Binding("Text", mvm, "ROUTECOUNT"));
             ManifestIds.DataBindings.Add(new Binding("Text", mvm, "UploadManifestIdComplete"));
-            //button1.DataBindings.Add(new Binding("Visible", mvm, "LoadManifestIdComplete"));
-            // textBox1.DataBindings.Add(new Binding("Text", mvm, "ROUTECOUNT"));
             txtManifestId.DataBindings.Add(new Binding("Text", mvm, "LoadManifestRequestComplete"));
-            //driverButton.DataBindings.Add(new Binding("Visible", dvm, "LoadDriversComplete"));
-            dateTimePicker1.ValueChanged += (s, e) => mvm.LoadManifestCommand.Execute(dateTimePicker1.Value);
-            //dateTimePicker1.ValueChanged += (s, e) => dvm.LoadDriversCommand.Execute(dateTimePicker1.Value);
+            dateTimePicker1.ValueChanged += (s, e) => LoadManifest();
+            this.dateTimePicker1.DataBindings.Add(new Binding("Enabled", mvm, "LoadManifestCompleted"));
 
-            //ManifestIds.DataBindings.CollectionChanged += ManifestId_DataBindings_CollectionChanged;
-            //ManifestIds.DataBindings.CollectionChanging += ManifestId_DataBindings_CollectionChanging;
-
-
-            //this.dataGridView2.DataSource = table;
-
+            ConnectAndLoad();
         }
 
-        //ManualResetEvent[] LoadCompleteEvents =
-        //    new ManualResetEvent[2];
-
-        //WaitHandle[] waitForLoad = new WaitHandle[2];
-        private void driverButton_VisibleChanged(object sender, EventArgs e)
-        {
-            //wait in both driver and manifest to come back then populate the grid with the cmbDrivers
-            //if (driverButton.Visible)
-            //{
-            //    LoadCompleteEvents[0].Set();
-            //}
-            //else
-            //{
-            //    //LoadCompleteEvents[0] = new ManualResetEvent(false);
-                
-            //}
-        }
-
-        private void button1_VisibleChanged(object sender, EventArgs e)
-        {
-            //if (button1.Visible)
-            //{
-            //    if (PopulateGrid() == 0)
-            //       button1.Visible = false;
-            //}
-            //else
-            //{
-            //   // ClearGrid();
-            //}
-        }
         private void label1_DoubleClick(object sender, EventArgs e)
         {
             PopulateGrid();
         }
         static bool bInit = true;
-        private void button2_Click(object sender, EventArgs e)
+        void ConnectAndLoad()
         {
             if (txtURL.Text.Length > 5)
                 mvm.InitConnections(txtURL.Text, 81, txtURL.Text, 8181);
             else
                 mvm.InitConnections(config.srvSet.url, config.srvSet.port,
                     config.srvSet.clienturl, config.srvSet.clientport);
-            //dvm.InitConnections(txtURL.Text, "81", txtURL.Text, "8181");
-            //dvm.LoadDriversCommand.Execute(dateTimePicker1.Value);
 
-           // ManifestIds.DataBindings.Clear();
-            //var bslist = new BindingList();
-            //var bs = new Binding("DataSource", mvm, "LoadManifestIdComplete", false, DataSourceUpdateMode.OnPropertyChanged);
-
-           // ManifestIds.DataBindings.Add(bs);
-
-            mvm.LoadManifestCommand.Execute(dateTimePicker1.Value);
+            LoadManifest();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ConnectAndLoad();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -424,45 +331,58 @@ namespace ManifestGenerator
                         return;
                     ManifestMasterData data = dgv.Rows[e.RowIndex].DataBoundItem as ManifestMasterData;
 
-                    switch (data.Command)
+                    switch (data.status)
                     {
-                        case eCommand.ManifestLoadComplete:
+                        case status.Init:
                             e.CellStyle.BackColor = Color.Green;
                             break;
-                        case eCommand.Manifest:
+                        case status.Pending:
                             e.CellStyle.BackColor = Color.Blue;
                             break;
-                        case eCommand.GenerateManifest:
+                        case status.Released:
+                            e.CellStyle.BackColor = Color.Chartreuse;
+                            break;
+                        case status.Releasing:
+                            e.CellStyle.BackColor = Color.Yellow;
+                            break;
+                        case status.Uploaded:
                             e.CellStyle.BackColor = Color.Red;
+                            break;
+                        case status.Completed:
+                            e.CellStyle.BackColor = Color.Yellow;
                             break;
                     }
                 }
             }
-            catch (Exception ex) { Logger.Debug($"Manifest Generator Error dataGridView2_CellFormatting Exce= {ex.Message}"); }
+            catch (Exception ex) { Logger.Error($"Manifest Generator Error dataGridView2_CellFormatting Exce= {ex.Message}"); }
         }
 
         private void txtManifestId_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                Logger.Debug("Manfest Generator");
+                Logger.Info("Manfest Generator");
                 if (txtManifestId.Text.Length != 0)// && txtManifestId.Text != 0)
                 {
                     button1.Visible = true;
-                    //PopulateGrid(((Control)sender).Text);
                 }
                 else
                 {
                     button1.Visible = false;
                     ClearGrid();
                 }
+                this.UseWaitCursor = false;
+                //dateTimePicker1.Enabled = true;
+                //dateTimePicker1.Select();
+
             }
-            catch (Exception ex) { Logger.Debug($"Manifest Generator Error txtManifestId Exce= {ex.Message}"); }
+            catch (Exception ex) { Logger.Error($"Manifest Generator Error txtManifestId Exce= {ex.Message}"); }
         }
 
         private void ManifestIds_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             e.Value = ManifestIds.Rows[e.RowIndex].DataBoundItem.ToString();
+            LoadManifest();
         }
 
         private void ManifestIds_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -476,6 +396,26 @@ namespace ManifestGenerator
             if (bInit)
                 LoadForm();
             bInit = false;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            LoadManifest();
+        }
+
+        private void dateTimePicker1_EnabledChanged(object sender, EventArgs e)
+        {
+            if (dateTimePicker1.Enabled == true)
+                this.UseWaitCursor = false;
+            else
+                UseWaitCursor = true;
+
+            dateTimePicker1.Select();
+        }
+
+        private void btnLoadFiles_Click(object sender, EventArgs e)
+        {
+            mvm.LoadFilesCommand.Execute(new object());
         }
     }
 }
