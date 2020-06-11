@@ -281,11 +281,19 @@ namespace ManifestGenerator
         static bool bInit = true;
         void ConnectAndLoad()
         {
+            //umdurl = "localhost", ushort umdport = 81, string winurl="localhost", ushort winport=8181)
             if (txtURL.Text.Length > 5)
-                mvm.InitConnections(txtURL.Text, 81, txtURL.Text, 8181);
+                mvm.InitConnections(new SocketSettings() { srvurl = txtURL.Text, srvport = 81, clienturl = txtURL.Text, clientport = 8181 });
             else
-                mvm.InitConnections(config.srvSet.url, config.srvSet.port,
-                    config.srvSet.clienturl, config.srvSet.clientport);
+                mvm.InitConnections(new SocketSettings()
+                {
+                    srvurl = config.srvSet.url,
+                    srvport = config.srvSet.port,
+                    clienturl = config.srvSet.clienturl,
+                    clientport = config.srvSet.clientport
+                });
+            //mvm.InitConnections(config.srvSet.url, config.srvSet.port,
+            //  config.srvSet.clienturl, config.srvSet.clientport);
 
             LoadManifest();
         }
