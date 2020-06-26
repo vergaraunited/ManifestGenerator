@@ -15,6 +15,7 @@ using MobileDeliveryLogger;
 using MobileDeliveryGeneral.BaseClasses;
 using MobileDeliveryGeneral.Settings;
 using MobileDeliveryGeneral.Definitions;
+using MobileDeliverySettings.Settings;
 
 namespace ManifestGenerator
 {
@@ -283,14 +284,20 @@ namespace ManifestGenerator
         {
             //umdurl = "localhost", ushort umdport = 81, string winurl="localhost", ushort winport=8181)
             if (txtURL.Text.Length > 5)
-                mvm.InitConnections(new SocketSettings() { srvurl = txtURL.Text, srvport = 81, clienturl = txtURL.Text, clientport = 8181 });
+                mvm.InitConnections(new SocketSettings() { srvurl = txtURL.Text, srvport = 81, clienturl = txtURL.Text, clientport = 8181, keepalive=60000, errrecontimeout=30000, name="frmManGen", retry=60000, recontimeout=60000 });
             else
                 mvm.InitConnections(new SocketSettings()
                 {
                     srvurl = config.srvSet.url,
                     srvport = config.srvSet.port,
                     clienturl = config.srvSet.clienturl,
-                    clientport = config.srvSet.clientport
+                    clientport = config.srvSet.clientport,
+                    keepalive = 60000,
+                    errrecontimeout = 30000,
+                    name = "frmManGen",
+                    retry = 60000,
+                    recontimeout = 60000
+
                 });
             //mvm.InitConnections(config.srvSet.url, config.srvSet.port,
             //  config.srvSet.clienturl, config.srvSet.clientport);

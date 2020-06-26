@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Windows.Forms;
 using MobileDeliveryGeneral.Settings;
+using MobileDeliverySettings.Settings;
 
 namespace ManifestGenerator
 {

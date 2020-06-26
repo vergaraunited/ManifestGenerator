@@ -143,6 +143,10 @@
       <Project>{a7c93d87-5c22-4d14-9d00-712c2fe251e4}</Project>
       <Name>MobileDeliveryMVVM</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MobileDeliverySettings\MobileDeliverySettings.csproj">
+      <Project>{426A0639-D832-4F45-94D2-C22860174307}</Project>
+      <Name>MobileDeliverySettings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
