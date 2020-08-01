@@ -13,7 +13,6 @@ using static MobileDeliveryGeneral.Definitions.MsgTypes;
 using System.Collections.Generic;
 using MobileDeliveryLogger;
 using MobileDeliveryGeneral.BaseClasses;
-using MobileDeliveryGeneral.Settings;
 using MobileDeliveryGeneral.Definitions;
 using MobileDeliverySettings.Settings;
 
@@ -24,21 +23,21 @@ namespace ManifestGenerator
         DataTable table = new DataTable();
         Logger logger;
         ManifestVM mvm;
-        UMDAppConfig config;
+        //UMDAppConfig config;
 
-        public frmManifestGenerator(UMDAppConfig config, Logger log)
+        public frmManifestGenerator(Logger log)
         {
             logger = log;
-            Init(config);
+          //  Init();
             InitializeComponent();
             // ViewModel Instance
-            mvm = new ManifestVM(config);
+            mvm = new ManifestVM();
         }
 
-        public void Init(UMDAppConfig config)
-        {
-            this.config = config;
-        }
+        //public void Init(UMDAppConfig config)
+        //{
+        //    this.config = config;
+        //}
         void InitDGView()
         {
             dataGridView2.AutoGenerateColumns = false;
@@ -286,19 +285,8 @@ namespace ManifestGenerator
             if (txtURL.Text.Length > 5)
                 mvm.InitConnections(new SocketSettings() { srvurl = txtURL.Text, srvport = 81, clienturl = txtURL.Text, clientport = 8181, keepalive=60000, errrecontimeout=30000, name="frmManGen", retry=60000, recontimeout=60000 });
             else
-                mvm.InitConnections(new SocketSettings()
-                {
-                    srvurl = config.srvSet.url,
-                    srvport = config.srvSet.port,
-                    clienturl = config.srvSet.clienturl,
-                    clientport = config.srvSet.clientport,
-                    keepalive = 60000,
-                    errrecontimeout = 30000,
-                    name = "frmManGen",
-                    retry = 60000,
-                    recontimeout = 60000
+                mvm.InitConnections();
 
-                });
             //mvm.InitConnections(config.srvSet.url, config.srvSet.port,
             //  config.srvSet.clienturl, config.srvSet.clientport);
 

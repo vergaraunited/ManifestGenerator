@@ -1,8 +1,6 @@
 ﻿using MobileDeliveryLogger;
 using System;
-using System.Configuration;
 using System.Windows.Forms;
-using MobileDeliveryGeneral.Settings;
 using MobileDeliverySettings.Settings;
 
 namespace ManifestGenerator
@@ -26,7 +24,7 @@ namespace ManifestGenerator
             Logger.Info($"Starting {config.AppName} {config.Version} {DateTime.Now}");
             Logger.Info($"Logfile path: {config.LogPath} ");
 
-            Application.Run(new frmManifestGenerator(config, logger)); 
+            Application.Run(new frmManifestGenerator(logger)); 
         }
     }
 }
